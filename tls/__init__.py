@@ -20,14 +20,18 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             name = req_body.get('servername')
 
     if name:
-        return func.HttpResponse(getTlsData(name))
+        return func.HttpResponse(
+            body=json.dumps(getTlsData(name)),
+            headers={'Content-Type':'application/json'}
+        )
     else:
         return func.HttpResponse(
-             "Please pass a servername on the query string or in the request body",
+             body=json.dumps({"error":"Please pass a servername on the query string or in the request body"}),
+             headers={'Content-Type':'application/json'},
              status_code=400
         )
 
-def getTlsData(name):
+def getTlsData(name: str) -> dict:
     ip_regex_pattern = '(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}'
     https_regex_pattern = '^https://'
     http_regex_pattern = '^http://'
@@ -41,9 +45,9 @@ def getTlsData(name):
             else:
                 server = str(name) + ":443"
         else:
-            server = urlparse(name)['netloc'] + ":443"
+            server = urlparse(name).netloc + ":443"
     else:
-        server = urlparse(name)['netloc'] + ":443"
+        server = urlparse(name).netloc + ":443"
 
     return_object = {}
     return_object["url"] = server[0:-4]

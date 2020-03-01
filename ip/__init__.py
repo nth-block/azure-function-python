@@ -9,7 +9,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     headers = req.headers['x-forwarded-for']
 
     if headers:
-        return func.HttpResponse(json.dumps({"public_ip": headers.split(':')[0]}))
+        return func.HttpResponse(body=json.dumps({"public_ip": headers.split(':')[0]}),headers={"Content-Type":"application/json"})
     else:
         return func.HttpResponse(
              "Please pass a name on the query string or in the request body",
