@@ -7,10 +7,10 @@ import re
 from urllib.parse import urlparse
 
 # Invocation
-# https://jsondata.azurewebsites.net/api/tlsv2?domain=http://<domainName>
-# https://jsondata.azurewebsites.net/api/tlsv2?domain=https://<domainName>
-# https://jsondata.azurewebsites.net/api/tlsv2?domain=<domainname>
-# https://jsondata.azurewebsites.net/api/tlsv2?domain=<ipAddress>
+# https://<azureFunctionName>.azurewebsites.net/api/tlsv2?domain=http://<domainName>
+# https://<azureFunctionName>.azurewebsites.net/api/tlsv2?domain=https://<domainName>
+# https://<azureFunctionName>.azurewebsites.net/api/tlsv2?domain=<domainname>
+# https://<azureFunctionName>.azurewebsites.net/api/tlsv2?domain=<ipAddress>
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
