@@ -42,6 +42,7 @@ def getTlsData(name: str) -> dict:
         if(re.match(ip_regex_pattern, name) == None):
             server = str(name) + ":443"
         else:
+            # If the name does not have https as well as an IP address as well, we assume that the invocation only contains the domain name
             server = str(name) + ":443"
             # return func.HttpResponse(json.dumps({dict(error = "Entry must be either a domain name or IP address")}), status_code = 400)
     else:
@@ -59,7 +60,6 @@ def getTlsData(name: str) -> dict:
         return_object["Subject Common Name"] = "N/A"
         return_object["Fingerprint"] = "N/A"
         return_object["Serial Number"] = "N/A"
-        return_object["Department"] = "N/A"
         return return_object
 
     response_text = result[1].split("\n")
@@ -72,7 +72,6 @@ def getTlsData(name: str) -> dict:
         # Subject and Department
         if(line.startswith("subject=")):
             return_object['Subject Common Name'] = line.split("=")[-1].strip()
-            return_object['Department'] = line.split("=")[-2].split(",")[0].strip()
 
         # Email
         if(line.startswith("email=")):
