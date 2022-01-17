@@ -6,6 +6,12 @@ import json
 import re
 from urllib.parse import urlparse
 
+# Invocation
+# https://jsondata.azurewebsites.net/api/tlsv2?domain=http://<domainName>
+# https://jsondata.azurewebsites.net/api/tlsv2?domain=https://<domainName>
+# https://jsondata.azurewebsites.net/api/tlsv2?domain=<domainname>
+# https://jsondata.azurewebsites.net/api/tlsv2?domain=<ipAddress>
+
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
@@ -69,7 +75,7 @@ def getTlsData(name: str) -> dict:
         if(line.startswith("issuer=")):
             return_object['Issuing CA'] = line.split("=")[-1].strip()
 
-        # Subject and Department
+        # Subject
         if(line.startswith("subject=")):
             return_object['Subject Common Name'] = line.split("=")[-1].strip()
 
